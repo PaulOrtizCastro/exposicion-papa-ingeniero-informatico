@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mi un Ingeniero Informático explica qué es un Ingeniero Informático</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Fuente infantil -->
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <!-- Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --azul: #1746a2;
+            --celeste: #00a6fb;
+            --naranja: #ff8c00;
+            --amarillo: #ffca3a;
+            --verde: #2ec4b6;
+            --rosado: #ff5d8f;
+            --morado: #6a4c93;
+            --texto: #344054;
+            --blanco: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Baloo 2', cursive;
+            background: linear-gradient(135deg, #dff6ff 0%, #fff4d6 45%, #ffe3ec 100%);
+            color: var(--texto);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .fondo-dibujos {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .burbuja {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.35;
+            animation: flotarBurbuja 8s infinite ease-in-out;
+        }
+
+        .burbuja-1 { width: 90px; height: 90px; background: var(--celeste); left: 5%; top: 72%; }
+        .burbuja-2 { width: 65px; height: 65px; background: var(--naranja); right: 8%; top: 15%; animation-delay: 1s; }
+        .burbuja-3 { width: 55px; height: 55px; background: var(--morado); right: 22%; bottom: 9%; animation-delay: 2s; }
+        .burbuja-4 { width: 75px; height: 75px; background: var(--verde); left: 18%; top: 12%; animation-delay: 3s; }
+
+        @keyframes flotarBurbuja {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-35px) scale(1.08); }
+        }
+
+        .estrella {
+            position: absolute;
+            font-size: 2rem;
+            animation: girar 6s linear infinite;
+            opacity: 0.7;
+        }
+
+        .estrella-1 { left: 9%; top: 22%; }
+        .estrella-2 { right: 13%; top: 65%; animation-delay: 1s; }
+        .estrella-3 { left: 45%; top: 8%; animation-delay: 2s; }
+
+        @keyframes girar {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .contenido-principal {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 42px 15px;
+        }
+
+        .panel-principal {
+            background: rgba(255, 255, 255, 0.94);
+            border-radius: 36px;
+            padding: 34px;
+            border: 5px solid #ffffff;
+            box-shadow: 0 24px 60px rgba(23, 70, 162, 0.16);
+        }
+
+        .etiqueta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #fff0d6;
+            color: #b45309;
+            border-radius: 999px;
+            padding: 8px 18px;
+            font-size: 1.25rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .titulo-principal {
+            color: var(--azul);
+            font-size: clamp(2.4rem, 5.6vw, 5rem);
+            font-weight: 800;
+            line-height: 0.98;
+            letter-spacing: -1px;
+        }
+
+        .subtitulo-principal {
+            color: var(--naranja);
+            font-size: clamp(1.45rem, 3vw, 2.25rem);
+            font-weight: 800;
+            line-height: 1.12;
+        }
+
+        .texto-infantil {
+            font-size: clamp(1.18rem, 2vw, 1.55rem);
+            line-height: 1.28;
+        }
+
+        .zona-papa {
+            position: relative;
+            min-height: 435px;
+        }
+
+        .pizarra {
+            position: absolute;
+            inset: 22px 0 0 0;
+            background: linear-gradient(180deg, #ffffff, #f8fbff);
+            border: 7px solid #334e68;
+            border-radius: 30px;
+            box-shadow: 0 18px 35px rgba(0, 0, 0, 0.12);
+            overflow: hidden;
+        }
+
+        .pizarra::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            height: 42px;
+            background: linear-gradient(90deg, var(--azul), var(--celeste));
+        }
+
+        .pizarra-titulo {
+            position: absolute;
+            left: 22px;
+            right: 22px;
+            top: 8px;
+            color: white;
+            font-size: 1.35rem;
+            font-weight: 800;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .papa-svg {
+            position: absolute;
+            left: 42px;
+            bottom: 0;
+            width: 265px;
+            max-width: 52%;
+            filter: drop-shadow(0 16px 20px rgba(0, 0, 0, 0.18));
+            animation: papaSaluda 2.8s infinite ease-in-out;
+            z-index: 4;
+        }
+
+        @keyframes papaSaluda {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .globo-dialogo {
+            position: absolute;
+            right: 28px;
+            top: 72px;
+            width: 300px;
+            max-width: 52%;
+            background: #fff7cc;
+            color: #7c4700;
+            border: 4px solid #ffca3a;
+            border-radius: 26px;
+            padding: 18px;
+            font-size: 1.35rem;
+            font-weight: 800;
+            line-height: 1.18;
+            z-index: 3;
+            box-shadow: 0 12px 25px rgba(255, 202, 58, 0.25);
+        }
+
+        .globo-dialogo::after {
+            content: '';
+            position: absolute;
+            left: -22px;
+            bottom: 30px;
+            width: 0;
+            height: 0;
+            border-top: 18px solid transparent;
+            border-bottom: 18px solid transparent;
+            border-right: 24px solid #ffca3a;
+        }
+
+        .icono-pizarra {
+            position: absolute;
+            z-index: 3;
+            width: 78px;
+            height: 78px;
+            border-radius: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.7rem;
+            background: white;
+            border: 4px solid #dbeafe;
+            box-shadow: 0 10px 22px rgba(23, 70, 162, 0.12);
+            animation: moverIcono 4s infinite ease-in-out;
+        }
+
+        .icono-1 { right: 325px; top: 87px; background: #e0f2fe; }
+        .icono-2 { right: 225px; top: 205px; background: #dcfce7; animation-delay: 0.7s; }
+        .icono-3 { right: 70px; top: 235px; background: #ffe4ec; animation-delay: 1.2s; }
+        .icono-4 { left: 48px; top: 66px; background: #fff0d6; animation-delay: 1.7s; }
+
+        @keyframes moverIcono {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
+        }
+
+        .btn-nino {
+            border: 0;
+            border-radius: 999px;
+            padding: 13px 26px;
+            font-size: 1.18rem;
+            font-weight: 800;
+            color: white;
+            background: linear-gradient(135deg, var(--azul), var(--celeste));
+            box-shadow: 0 12px 24px rgba(23, 70, 162, 0.28);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-nino:hover {
+            transform: translateY(-3px) scale(1.03);
+            color: white;
+            box-shadow: 0 16px 28px rgba(23, 70, 162, 0.34);
+        }
+
+        .btn-naranja {
+            background: linear-gradient(135deg, #ff7a00, #ffb703);
+            box-shadow: 0 12px 24px rgba(255, 122, 0, 0.28);
+        }
+
+        .btn-rosado {
+            background: linear-gradient(135deg, #ff5d8f, #ff9fbc);
+            box-shadow: 0 12px 24px rgba(255, 93, 143, 0.28);
+        }
+
+        .bloque-seccion {
+            padding: 30px 0 55px 0;
+        }
+
+        .titulo-seccion {
+            color: var(--azul);
+            font-size: clamp(2rem, 4vw, 3.4rem);
+            font-weight: 800;
+            line-height: 1.05;
+        }
+
+        .tarjeta {
+            background: #ffffff;
+            border-radius: 30px;
+            padding: 26px;
+            height: 100%;
+            border: 4px solid #edf2ff;
+            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.08);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .tarjeta:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 38px rgba(0, 0, 0, 0.12);
+        }
+
+        .tarjeta h3 {
+            color: var(--azul);
+            font-weight: 800;
+            font-size: 1.7rem;
+        }
+
+        .circulo-icono {
+            width: 86px;
+            height: 86px;
+            border-radius: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin-bottom: 16px;
+        }
+
+        .soft-blue { background: #dff3ff; }
+        .soft-orange { background: #fff0d6; }
+        .soft-green { background: #dcfce7; }
+        .soft-pink { background: #ffe4ec; }
+        .soft-purple { background: #f3e8ff; }
+        .soft-yellow { background: #fef9c3; }
+
+        .ruta {
+            position: relative;
+            background: #ffffff;
+            border-radius: 34px;
+            padding: 30px;
+            border: 4px dashed #93c5fd;
+            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.07);
+        }
+
+        .paso {
+            display: flex;
+            gap: 18px;
+            align-items: center;
+            padding: 18px;
+            border-radius: 26px;
+            background: #f8fbff;
+            margin-bottom: 16px;
+            border: 3px solid transparent;
+            cursor: pointer;
+            transition: all 0.22s ease;
+        }
+
+        .paso:hover,
+        .paso.activo {
+            background: #eaf6ff;
+            border-color: var(--celeste);
+            transform: translateX(8px);
+        }
+
+        .numero-paso {
+            min-width: 62px;
+            height: 62px;
+            border-radius: 22px;
+            background: linear-gradient(135deg, var(--azul), var(--celeste));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        .panel-mensaje {
+            background: linear-gradient(135deg, var(--azul), #0077b6);
+            color: white;
+            border-radius: 34px;
+            padding: 28px;
+            min-height: 100%;
+            box-shadow: 0 20px 40px rgba(23, 70, 162, 0.24);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .mensaje-grande {
+            font-size: clamp(1.6rem, 3vw, 2.7rem);
+            font-weight: 800;
+            line-height: 1.1;
+        }
+
+        .juego-opcion {
+            cursor: pointer;
+            user-select: none;
+            text-align: center;
+            min-height: 185px;
+        }
+
+        .juego-opcion.seleccionado {
+            outline: 7px solid var(--amarillo);
+            transform: scale(1.04);
+        }
+
+        .resultado {
+            background: #f8fafc;
+            border: 4px dashed #7dd3fc;
+            border-radius: 28px;
+            padding: 22px;
+            min-height: 95px;
+            font-size: 1.45rem;
+            color: var(--azul);
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .texto-exposicion {
+            background: #ffffff;
+            border-radius: 34px;
+            padding: 32px;
+            border: 5px solid #fff0d6;
+            box-shadow: 0 18px 38px rgba(0, 0, 0, 0.09);
+        }
+
+        .frase-hijo {
+            font-size: clamp(1.45rem, 3vw, 2.35rem);
+            color: var(--azul);
+            font-weight: 800;
+            line-height: 1.15;
+        }
+
+        .badge-herramienta {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: #eef4ff;
+            color: var(--azul);
+            border-radius: 999px;
+            padding: 9px 15px;
+            margin: 5px;
+            font-size: 1.12rem;
+            font-weight: 800;
+        }
+
+        .mini-pantalla {
+            background: #101828;
+            color: #86efac;
+            border-radius: 24px;
+            padding: 20px;
+            font-family: Consolas, monospace;
+            font-size: 1rem;
+            min-height: 230px;
+            border: 8px solid #334155;
+            box-shadow: inset 0 0 0 2px #64748b, 0 16px 30px rgba(0, 0, 0, 0.16);
+        }
+
+        .codigo-linea {
+            display: block;
+            margin-bottom: 7px;
+        }
+
+        .footer-box {
+            background: rgba(255, 255, 255, 0.94);
+            border-radius: 30px 30px 0 0;
+            padding: 22px;
+            color: #475467;
+            font-size: 1.2rem;
+            box-shadow: 0 -12px 28px rgba(0, 0, 0, 0.08);
+        }
+
+        .oculto {
+            display: none;
+        }
+
+        @media (max-width: 992px) {
+            .zona-papa {
+                min-height: 500px;
+            }
+
+            .papa-svg {
+                left: 8px;
+                width: 240px;
+                max-width: 58%;
+            }
+
+            .globo-dialogo {
+                right: 14px;
+                top: 76px;
+                width: 265px;
+                max-width: 58%;
+                font-size: 1.18rem;
+            }
+
+            .icono-1 { right: 35px; top: 205px; }
+            .icono-2 { right: 145px; top: 292px; }
+            .icono-3 { right: 35px; top: 362px; }
+            .icono-4 { left: 24px; top: 72px; }
+        }
+
+        @media (max-width: 576px) {
+            .panel-principal,
+            .tarjeta,
+            .ruta,
+            .texto-exposicion {
+                border-radius: 24px;
+                padding: 22px;
+            }
+
+            .zona-papa {
+                min-height: 540px;
+            }
+
+            .pizarra {
+                border-radius: 24px;
+            }
+
+            .papa-svg {
+                left: 0;
+                bottom: 0;
+                width: 220px;
+                max-width: 68%;
+            }
+
+            .globo-dialogo {
+                top: 72px;
+                right: 8px;
+                width: 220px;
+                max-width: 60%;
+                padding: 14px;
+                font-size: 1.08rem;
+            }
+
+            .icono-pizarra {
+                width: 64px;
+                height: 64px;
+                font-size: 2.2rem;
+                border-radius: 20px;
+            }
+
+            .icono-1 { right: 18px; top: 226px; }
+            .icono-2 { right: 100px; top: 320px; }
+            .icono-3 { right: 16px; top: 410px; }
+            .icono-4 { left: 18px; top: 68px; }
+
+            .paso {
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="fondo-dibujos">
+        <div class="burbuja burbuja-1"></div>
+        <div class="burbuja burbuja-2"></div>
+        <div class="burbuja burbuja-3"></div>
+        <div class="burbuja burbuja-4"></div>
+        <div class="estrella estrella-1">⭐</div>
+        <div class="estrella estrella-2">✨</div>
+        <div class="estrella estrella-3">🌟</div>
+    </div>
+
+    <main class="contenido-principal">
+        <section class="hero">
+            <div class="container">
+                <div class="panel-principal">
+                    <div class="row align-items-center g-4">
+                        <div class="col-lg-6">
+                            <span class="etiqueta">👨‍💻 Exposición del nido</span>
+                            <h1 class="titulo-principal">Hola, soy un Ingeniero Informático y te explicaré mi trabajo</h1>
+                            <p class="subtitulo-principal mt-3">Soy Ingeniero Informático</p>
+                            <p class="texto-infantil mt-3">
+                                Yo trabajo con computadoras, ideas y tecnología. Mi misión es crear programas que ayuden a las personas a hacer sus tareas de forma más fácil, rápida y segura.
+                            </p>
+                            <div class="mt-4 d-flex flex-wrap gap-3">
+                                <button class="btn btn-nino" id="btnEmpezar">Empezar explicación</button>
+                                <button class="btn btn-nino btn-naranja" id="btnModoHijo">Texto para mi hijo</button>
+                                <button class="btn btn-nino btn-rosado" id="btnCelebrar">Celebrar</button>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="zona-papa">
+                                <div class="pizarra">
+                                    <div class="pizarra-titulo">Un Ingeniero Informático explica con dibujos</div>
+                                </div>
+
+                                <div class="globo-dialogo" id="globoPapa">
+                                    ¡Hola niños! Un Ingeniero Informático crea soluciones usando tecnología.
+                                </div>
+
+                                <div class="icono-pizarra icono-1" title="Programas">💻</div>
+                                <div class="icono-pizarra icono-2" title="Seguridad">🔐</div>
+                                <div class="icono-pizarra icono-3" title="Robot">🤖</div>
+                                <div class="icono-pizarra icono-4" title="Ideas">💡</div>
+
+                                <svg class="papa-svg" viewBox="0 0 360 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="un Ingeniero Informático explicando qué es un ingeniero informático">
+                                    <ellipse cx="180" cy="492" rx="105" ry="18" fill="rgba(0,0,0,0.16)" />
+                                    <rect x="132" y="238" width="94" height="150" rx="30" fill="#2f855a" />
+                                    <path d="M133 265 C82 285 62 331 73 351 C83 371 118 335 145 306 Z" fill="#2f855a" />
+                                    <path d="M223 263 C278 250 302 210 292 190 C283 170 247 202 216 235 Z" fill="#2f855a" />
+                                    <circle cx="298" cy="186" r="17" fill="#ffd1a3" />
+                                    <rect x="146" y="388" width="32" height="83" rx="14" fill="#1d4ed8" />
+                                    <rect x="190" y="388" width="32" height="83" rx="14" fill="#1d4ed8" />
+                                    <rect x="127" y="463" width="58" height="24" rx="12" fill="#5c4033" />
+                                    <rect x="184" y="463" width="58" height="24" rx="12" fill="#5c4033" />
+                                    <circle cx="180" cy="156" r="70" fill="#ffd1a3" />
+                                    <path d="M111 144 C122 65 246 64 252 151 C225 118 160 111 111 144 Z" fill="#4b2e1f" />
+                                    <circle cx="155" cy="160" r="8" fill="#111827" />
+                                    <circle cx="205" cy="160" r="8" fill="#111827" />
+                                    <path d="M153 192 Q181 214 210 192" stroke="#111827" stroke-width="7" fill="none" stroke-linecap="round" />
+                                    <path d="M129 189 C138 236 225 236 234 189 C219 213 147 213 129 189 Z" fill="#5c4033" opacity="0.55" />
+                                    <rect x="146" y="226" width="68" height="36" rx="16" fill="#ffffff" />
+                                    <text x="180" y="252" text-anchor="middle" font-size="23" font-weight="800" fill="#1746a2">IT</text>
+                                    <circle cx="79" cy="356" r="17" fill="#ffd1a3" />
+                                    <path d="M116 303 C132 342 164 363 198 360" stroke="#1f7a4c" stroke-width="14" fill="none" stroke-linecap="round" />
+                                    <rect x="111" y="346" width="130" height="82" rx="16" fill="#1746a2" />
+                                    <rect x="128" y="362" width="96" height="44" rx="9" fill="#9be7ff" />
+                                    <text x="176" y="392" text-anchor="middle" font-size="28" font-weight="800" fill="#1746a2">&lt;/&gt;</text>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container bloque-seccion oculto" id="seccionExplicacion">
+            <div class="text-center mb-4">
+                <h2 class="titulo-seccion">Un Ingeniero Informático lo explica fácil</h2>
+                <p class="texto-infantil">Cada dibujo representa una parte del trabajo de un Ingeniero Informático.</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-6 col-xl-3">
+                    <div class="tarjeta text-center">
+                        <div class="circulo-icono soft-blue mx-auto">💻</div>
+                        <h3>Creo programas</h3>
+                        <p class="texto-infantil">Un programa es como una receta que le dice a la computadora qué hacer.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-3">
+                    <div class="tarjeta text-center">
+                        <div class="circulo-icono soft-orange mx-auto">🧩</div>
+                        <h3>Resuelvo problemas</h3>
+                        <p class="texto-infantil">Busco una solución cuando algo es difícil, lento o desordenado.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-3">
+                    <div class="tarjeta text-center">
+                        <div class="circulo-icono soft-green mx-auto">🔐</div>
+                        <h3>Cuido datos</h3>
+                        <p class="texto-infantil">Ayudo a proteger la información para que esté segura.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-3">
+                    <div class="tarjeta text-center">
+                        <div class="circulo-icono soft-pink mx-auto">🤝</div>
+                        <h3>Ayudo a personas</h3>
+                        <p class="texto-infantil">La tecnología sirve para estudiar, trabajar y comunicarnos mejor.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container bloque-seccion oculto" id="seccionRuta">
+            <div class="row g-4 align-items-stretch">
+                <div class="col-lg-6">
+                    <div class="ruta h-100">
+                        <h2 class="titulo-seccion fs-1 mb-4">¿Cómo trabaja un Ingeniero Informático?</h2>
+
+                        <div class="paso activo" data-mensaje="Primero escucho qué necesita una persona. Así entiendo el problema.">
+                            <div class="numero-paso">1</div>
+                            <div>
+                                <h3>Escucho</h3>
+                                <p class="texto-infantil mb-0">un Ingeniero Informático pregunta qué se necesita.</p>
+                            </div>
+                        </div>
+
+                        <div class="paso" data-mensaje="Luego pienso una idea, como cuando armamos un rompecabezas.">
+                            <div class="numero-paso">2</div>
+                            <div>
+                                <h3>Pienso</h3>
+                                <p class="texto-infantil mb-0">un Ingeniero Informático imagina una solución.</p>
+                            </div>
+                        </div>
+
+                        <div class="paso" data-mensaje="Después escribo código. El código son instrucciones para la computadora.">
+                            <div class="numero-paso">3</div>
+                            <div>
+                                <h3>Programo</h3>
+                                <p class="texto-infantil mb-0">un Ingeniero Informático crea el programa.</p>
+                            </div>
+                        </div>
+
+                        <div class="paso" data-mensaje="Finalmente pruebo que todo funcione bien para ayudar a las personas.">
+                            <div class="numero-paso">4</div>
+                            <div>
+                                <h3>Pruebo</h3>
+                                <p class="texto-infantil mb-0">un Ingeniero Informático revisa que funcione.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="panel-mensaje h-100 text-center">
+                        <div class="fs-1 mb-3">📣</div>
+                        <div class="mensaje-grande" id="mensajePaso">Primero escucho qué necesita una persona. Así entiendo el problema.</div>
+                        <button class="btn btn-light btn-lg rounded-pill fw-bold mt-4" id="btnSiguientePaso">Siguiente paso</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container bloque-seccion oculto" id="seccionHerramientas">
+            <div class="row g-4 align-items-stretch">
+                <div class="col-lg-6">
+                    <div class="tarjeta h-100">
+                        <h2 class="titulo-seccion fs-1">Las herramientas de un Ingeniero Informático</h2>
+                        <p class="texto-infantil">Para trabajar, un Ingeniero Informático usa varias herramientas. Algunas se ven y otras están dentro de la computadora.</p>
+
+                        <div class="mt-3">
+                            <span class="badge-herramienta">💻 Computadora</span>
+                            <span class="badge-herramienta">🌐 Internet</span>
+                            <span class="badge-herramienta">⌨️ Teclado</span>
+                            <span class="badge-herramienta">🧠 Ideas</span>
+                            <span class="badge-herramienta">🧩 Lógica</span>
+                            <span class="badge-herramienta">👥 Equipo</span>
+                            <span class="badge-herramienta">🔎 Pruebas</span>
+                            <span class="badge-herramienta">🔐 Seguridad</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="tarjeta h-100">
+                        <h2 class="titulo-seccion fs-1">La computadora entiende instrucciones</h2>
+                        <div class="mini-pantalla mt-3" id="miniCodigo">
+                            <span class="codigo-linea">un Ingeniero Informático.dice('Hola niños');</span>
+                            <span class="codigo-linea">computadora.escucha();</span>
+                            <span class="codigo-linea">programa.ayuda();</span>
+                            <span class="codigo-linea">resultado = 'Todo funciona';</span>
+                        </div>
+                        <button class="btn btn-nino mt-4" id="btnCambiarCodigo">Cambiar ejemplo</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container bloque-seccion oculto" id="seccionJuego">
+            <div class="text-center mb-4">
+                <h2 class="titulo-seccion">Mini juego para los niños</h2>
+                <p class="texto-infantil">Haz clic en lo que sí hace un Ingeniero Informático.</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-6 col-lg-3">
+                    <div class="tarjeta juego-opcion" data-respuesta="correcto">
+                        <div class="circulo-icono soft-blue mx-auto">💻</div>
+                        <h3>Programa</h3>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="tarjeta juego-opcion" data-respuesta="incorrecto">
+                        <div class="circulo-icono soft-yellow mx-auto">🦕</div>
+                        <h3>Cuida dinosaurios</h3>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="tarjeta juego-opcion" data-respuesta="correcto">
+                        <div class="circulo-icono soft-green mx-auto">🔐</div>
+                        <h3>Protege datos</h3>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="tarjeta juego-opcion" data-respuesta="incorrecto">
+                        <div class="circulo-icono soft-pink mx-auto">🍕</div>
+                        <h3>Hace pizzas</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="resultado mt-4" id="resultadoJuego">Selecciona una tarjeta.</div>
+        </section>
+
+        <section class="container bloque-seccion oculto" id="seccionExposicion">
+            <div class="texto-exposicion text-center">
+                <div class="fs-1 mb-2">🎤</div>
+                <h2 class="titulo-seccion">Mensaje final para los niños</h2>
+                <p class="frase-hijo mt-4" id="textoHijo">
+                    “Muchas gracias amiguitos por escucharme con atención. Hoy aprendimos que un Ingeniero Informático usa la tecnología para ayudar a las personas. Recuerden que con imaginación, esfuerzo y muchas ganas de aprender, ustedes también pueden crear cosas maravillosas. ¡Gracias!”
+                </p>
+                <div class="d-flex flex-wrap gap-3 justify-content-center mt-4">
+                    <button class="btn btn-nino" id="btnMostrarCierre">Mensaje final</button>
+                    <button class="btn btn-nino btn-naranja" id="btnLeerExposicion">Leer con voz</button>
+                </div>
+                <div class="resultado mt-4" id="mensajeCierre">Presiona “Mensaje final” para mostrar un cierre especial para los niños.</div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer-box text-center contenido-principal">
+        Proyecto para nido: <strong>La profesión de mi un Ingeniero Informático</strong> · Ingeniero Informático 👨‍💻 · Tecnología para ayudar 🚀
+    </footer>
+
+    <script>
+        $(document).ready(function () {
+            inicializarEventos();
+            return;
+        });
+
+        function inicializarEventos() {
+            $('#btnEmpezar').on('click', function () {
+                mostrarExplicacionCompleta();
+                return;
+            });
+
+            $('#btnModoHijo').on('click', function () {
+                mostrarTextoHijo();
+                return;
+            });
+
+            $('#btnCelebrar').on('click', function () {
+                celebrar();
+                return;
+            });
+
+            $('.paso').on('click', function () {
+                seleccionarPaso($(this));
+                return;
+            });
+
+            $('#btnSiguientePaso').on('click', function () {
+                avanzarPaso();
+                return;
+            });
+
+            $('#btnCambiarCodigo').on('click', function () {
+                cambiarCodigo();
+                return;
+            });
+
+            $('.juego-opcion').on('click', function () {
+                validarJuego($(this));
+                return;
+            });
+
+            $('#btnMostrarCierre').on('click', function () {
+                mostrarCierre();
+                return;
+            });
+
+            $('#btnLeerExposicion').on('click', function () {
+                leerExposicion();
+                return;
+            });
+
+            cambiarGloboAutomaticamente();
+            return;
+        }
+
+        function mostrarExplicacionCompleta() {
+            $('#seccionExplicacion, #seccionRuta, #seccionHerramientas, #seccionJuego, #seccionExposicion').slideDown(650);
+
+            setTimeout(function () {
+                desplazarA('#seccionExplicacion');
+                return;
+            }, 400);
+
+            return;
+        }
+
+        function mostrarTextoHijo() {
+            $('#seccionExposicion').slideDown(650);
+
+            setTimeout(function () {
+                desplazarA('#seccionExposicion');
+                return;
+            }, 350);
+
+            return;
+        }
+
+        function desplazarA(selector) {
+            $('html, body').animate({ scrollTop: $(selector).offset().top - 20 }, 650);
+            return;
+        }
+
+        function cambiarGloboAutomaticamente() {
+            var frases = [
+                '¡Hola niños! Un Ingeniero Informático crea soluciones usando tecnología.',
+                'Yo uso la computadora para hacer programas que ayudan a las personas.',
+                'El código es como una receta que la computadora puede seguir.',
+                'También cuido la información para que esté segura.',
+                'Cuando hay un problema, pienso, pruebo y busco una solución.'
+            ];
+
+            var indice = 0;
+
+            setInterval(function () {
+                indice = (indice + 1) % frases.length;
+                $('#globoPapa').fadeOut(250, function () {
+                    $(this).text(frases[indice]).fadeIn(250);
+                    return;
+                });
+
+                return;
+            }, 4200);
+
+            return;
+        }
+
+        function seleccionarPaso(paso) {
+            $('.paso').removeClass('activo');
+            paso.addClass('activo');
+            $('#mensajePaso').hide().text(paso.data('mensaje')).fadeIn(250);
+            return;
+        }
+
+        function avanzarPaso() {
+            var pasos = $('.paso');
+            var actual = pasos.index($('.paso.activo'));
+            var siguiente = actual + 1 >= pasos.length ? 0 : actual + 1;
+            seleccionarPaso($(pasos[siguiente]));
+            return;
+        }
+
+        function cambiarCodigo() {
+            var ejemplos = [
+                [
+                    "un Ingeniero Informático.dice('Hola niños');",
+                    'computadora.escucha();',
+                    'programa.ayuda();',
+                    "resultado = 'Todo funciona';"
+                ],
+                [
+                    "problema = 'muy lento';",
+                    'idea = pensarSolucion();',
+                    'programa = crearAyuda(idea);',
+                    "familia.feliz = true;"
+                ],
+                [
+                    "datos = 'información importante';",
+                    'seguridad.proteger(datos);',
+                    'sistema.revisar();',
+                    "mensaje = 'datos seguros';"
+                ]
+            ];
+
+            var indice = Math.floor(Math.random() * ejemplos.length);
+            var html = '';
+
+            ejemplos[indice].forEach(function (linea) {
+                html += '<span class="codigo-linea">' + linea + '</span>';
+                return;
+            });
+
+            $('#miniCodigo').hide().html(html).fadeIn(250);
+            return;
+        }
+
+        function validarJuego(opcion) {
+            var respuesta = opcion.data('respuesta');
+            var mensaje = '';
+
+            $('.juego-opcion').removeClass('seleccionado');
+            opcion.addClass('seleccionado');
+
+            if (respuesta === 'correcto') {
+                mensaje = '¡Muy bien! Eso sí lo hace un Ingeniero Informático 👏';
+                celebrar();
+            } else {
+                mensaje = 'Casi, casi. Eso no es su trabajo principal 😄';
+            }
+
+            $('#resultadoJuego').hide().text(mensaje).fadeIn(250);
+            return;
+        }
+
+        function mostrarCierre() {
+            var mensaje = '¡Gracias amiguitos! Sigan aprendiendo, imaginando y creando cosas bonitas con ayuda de la tecnología 🌟';
+            $('#mensajeCierre').hide().text(mensaje).fadeIn(300);
+            celebrar();
+            return;
+        }
+
+        function leerExposicion() {
+            var texto = $('#textoHijo').text().replace(/[“”]/g, '').trim();
+
+            if (!('speechSynthesis' in window)) {
+                $('#mensajeCierre').text('Este navegador no permite leer con voz, pero el texto está listo para practicar.');
+                return;
+            }
+
+            window.speechSynthesis.cancel();
+
+            var lectura = new SpeechSynthesisUtterance(texto);
+            lectura.lang = 'es-PE';
+            lectura.rate = 0.88;
+            lectura.pitch = 1.05;
+            window.speechSynthesis.speak(lectura);
+
+            $('#mensajeCierre').text('Estoy leyendo el texto de la exposición 🎤');
+            return;
+        }
+
+        function celebrar() {
+            if (typeof confetti !== 'function') {
+                return;
+            }
+
+            confetti({
+                particleCount: 120,
+                spread: 75,
+                origin: { y: 0.65 }
+            });
+
+            return;
+        }
+    </script>
+</body>
+</html>
