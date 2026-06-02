@@ -1032,7 +1032,7 @@
     </main>
 
     <footer class="footer-box text-center contenido-principal">
-        Proyecto para nido: <strong>La profesión de mi un Ingeniero Informático</strong> · Ingeniero Informático 👨‍💻 · Tecnología para ayudar 🚀
+        Proyecto para nido: <strong>La profesión de un Ingeniero Informático</strong> · Ingeniero Informático 👨‍💻 · Tecnología para ayudar 🚀
     </footer>
 
     <script>
@@ -1041,7 +1041,7 @@
             return;
         });
 
-        function inicializarEventos() {
+        function inicializarEventos() {            
             $('#btnEmpezar').on('click', function () {
                 mostrarExplicacionCompleta();
                 return;
@@ -1088,6 +1088,14 @@
             });
 
             cambiarGloboAutomaticamente();
+            
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.onvoiceschanged = function () {
+                    window.speechSynthesis.getVoices();
+                    return;
+                };
+            }
+
             return;
         }
 
@@ -1228,11 +1236,27 @@
 
             var lectura = new SpeechSynthesisUtterance(texto);
             lectura.lang = 'es-PE';
-            lectura.rate = 0.88;
-            lectura.pitch = 1.05;
+
+            // Estilo voz animada / videojuego
+            lectura.rate = 1.15;   // velocidad
+            lectura.pitch = 2;  // tono más agudo
+            lectura.volume = 1;
+
+            var voces = window.speechSynthesis.getVoices();
+
+            // Busca una voz en español disponible en el navegador
+            var vozEspanol = voces.find(function (voz) {
+                return voz.lang.toLowerCase().includes('es');
+            });
+
+            if (vozEspanol) {
+                lectura.voice = vozEspanol;
+            }
+
             window.speechSynthesis.speak(lectura);
 
-            $('#mensajeCierre').text('Estoy leyendo el texto de la exposición 🎤');
+            $('#mensajeCierre').text('Estoy leyendo el texto con una voz divertida de videojuego 🎮🎤');
+
             return;
         }
 
